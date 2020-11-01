@@ -1,0 +1,49 @@
+<ion-content>
+  <ion-grid class="area">
+    <ion-row>
+      <ion-col size="1">
+      </ion-col>
+      <ion-col style="text-align: center; " size="10">
+        <h1 class="letra" style="font-family: 'Exo', sans-serif; font-size: 75px; font-weight: bold;">
+          You lost
+        </h1>
+        <h1 style="font-family: 'Exo', sans-serif; font-size: 30px; font-weight: bold;">
+          <span style="color: rgb(46, 165, 81);">Your score: </span>
+        </h1>
+      </ion-col>
+      <ion-col size="1">
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="1"></ion-col>
+      <ion-col size="10">
+        <h1 style="text-align: center; font-style: bold; font-size: 60px">
+          <span style="color: rgb(36, 99, 180);">0</span>
+        </h1>
+      </ion-col>
+      <ion-col size="1"></ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="1"></ion-col>
+      <ion-col style="text-align: center;" size="10">
+        <h1>
+          <span style="color: rgb(36, 99, 180);">round<span *ngIf="score != 1">s</span></span>
+        </h1>
+      </ion-col>
+      <ion-col size="1"></ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="1"></ion-col>
+      <ion-col style="text-align: center;" size="10">
+        <div class="boton" (click)="play()">
+          ¡ P L A Y <span style="padding-left: 15px;">A G A I N</span> !
+        </div>
+      </ion-col>
+      <ion-col size="1"></ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
+</ion-content>

@@ -1,0 +1,95 @@
+.area {
+    background: #1d1d1d;
+    width: 100%;
+    height: 100vh;
+}
+
+.letra {
+    background: -webkit-linear-gradient(#a7e3ff, rgb(61, 192, 89));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.tapper {
+    background-color: rgba(255, 255, 255, 0.808) !important;
+    box-shadow: 0 0 0 2px #fff inset;
+}
+
+.tapperLost {
+    background-color: rgba(255, 255, 255, 0.808) !important;
+    box-shadow: 0 0 0 3px rgb(223, 50, 50) inset;
+}
+
+.tropper:active {
+    background-color: rgba(255, 255, 255, 0.808) !important;
+    box-shadow: 0 0 0 2px #fff inset;
+}
+
+.memorize {
+    position: fixed;
+    text-align: center;
+    color: white;
+    padding-top: 45vh;
+    z-index: 100;
+    float: top left;
+    width: 100%;
+    font-family: 'Exo', sans-serif; 
+    font-size: 8vh; 
+    opacity: 0;
+    font-weight: bold;
+    height: 100%;
+}
+
+.animatedClass {
+    animation: btnanimate 1.5s linear;
+}
+
+.animatedClassLost {
+    animation: btnanimate 3s linear;
+}
+
+.destroyed {
+    display: none;
+}
+
+@keyframes btnanimate {
+
+    0% {
+        
+    }
+
+    25% {
+        opacity: 0.75;
+    }
+
+    50% {
+        opacity: 0.50;
+    }
+
+    100% {
+        opacity: 0;
+        display: none;
+    }
+
+}
+
+@-webkit-keyframes btnanimate {
+
+    0% {
+        
+    }
+
+    25% {
+        opacity: 0.75;
+    }
+
+    50% {
+        opacity: 0.50;
+    }
+
+    100% {
+        opacity: 0;
+        display: none;
+    }
+
+}
