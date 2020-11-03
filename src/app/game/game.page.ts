@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { delay } from 'q';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+import { core } from '@angular/compiler';
+import { timer } from 'timer'
 
 @Component({
   selector: 'app-game',
@@ -9,87 +12,134 @@ import { Router } from '@angular/router';
 })
 export class GamePage implements OnInit {
   cantidad: any = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-  constructor(private router: Router) {}
-  score: any = 0
-  counter: number = 3
-  level = []
-  executingLevel: any = false
-  rounds : number = 0
-  playingCounter: number = 0
-  roundWillFire: any = false;
-  roundLost: any = false;
-  buttons = {'1':false,'2':false,'3':false,'4':false}
-  buttonsLost = {'1':false,'2':false,'3':false,'4':false}
-
+  constructor(public alertController: AlertController, private router: Router, private elementRef: ElementRef, private route: ActivatedRoute) {
+    
+  }
+  juegoActivo: boolean = true
+  ms: number = 2000;
+  level: number = 2;
+  showCounter: boolean = false;
+  pressed: boolean = false;
+  lifes: number = 5;
+  points: number = 0;
   ngOnInit() {
-    this.nextLevel()
+    this.initialize()
   }
 
-  nextLevel(){
-    this.generateLevel()
-    this.fireRound()
-    setTimeout(()=> {
-      this.executeLevel()
-    }, 1500)
+  initialize() {
+    var hongo = document.getElementById("mushroom")
+    setTimeout(() => {
+      var counterTimerStart = document.getElementById("counterTimerStart")
+      counterTimerStart.remove()
+      this.juegoActivo = true
+      this.ms = this.ms / this.level
+      this.showCounter = true
+      this.core()
+    }, 3500)
   }
 
-  playing(button){
-    if (button == this.level[this.playingCounter]){
-      //SELECTION MATCHES
-      this.playingCounter++
+  core = async () => {
+    if(this.juegoActivo && !this.pressed){
+      this.showCounter = false
+      this.lifes = this.lifes -1
+      this.randomPosition()
+    }
+    if(this.lifes < 1){
+      this.showCounter = false
+      this.callLost()
     }else{
-      //LOST
-      this.lost(this.level[this.playingCounter])
-    }
-    if((this.playingCounter+1) > this.level.length){
-      //LEVEL FINISHED AND WON
-      this.nextLevel()
-      this.rounds++
+      this.pressed = false;
+      await timer(this.ms)
+      this.core()
     }
   }
 
-  lost(button){
-    this.buttonsLost[button.toString()] = true
-    this.roundLost = true;
+  mushroomPressed(){
+    this.pressed = true;
+    this.points = this.points + this.level
+    this.showCounter = false
+    this.randomPosition()
+  }
+
+  callLost(){
+    this.router.navigate(['/lost', { rounds: this.points }])
+  }
+
+  randomPosition(){
+    var hongo = document.getElementById("mushroom")
+    var statusBar = document.getElementById("statusBar")
+    let alto = window.screen.height;
+    let ancho = window.screen.width;
+    let anchoHongo = hongo.clientWidth
+    let alturaHongo = hongo.clientHeight
+    let random:any = Math.random() * (ancho - 0) + 0;
+    let randomAltura:any = Math.random() * (alto - 0) + 0;
+    hongo.style.height = "100px"
+    if (random + anchoHongo > ancho){
+      random = random - ((random + anchoHongo) - ancho)
+    }
+    random = Math.round(random).toString()
+    hongo.style.marginLeft = random + "px";
+    
+    if (randomAltura + alturaHongo + statusBar.clientHeight > alto){
+      randomAltura = randomAltura - ((randomAltura + alturaHongo + statusBar.clientHeight) - alto)
+    }
+    random = Math.round(randomAltura).toString()
+    hongo.style.marginTop = randomAltura + "px";
     setTimeout(() => {
-      this.roundLost = false;
-      //REPLAY PAGE
-      this.router.navigate(['/lost', { rounds: this.rounds }])
-    }, 3000)
+      this.showCounter = true
+    }, 10)
   }
 
-  fireRound() {
-    this.roundWillFire = true;
-    setTimeout(() => {
-      this.roundWillFire = false;
-    }, 1500)
+  async presentAlertExit() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Exit game?',
+      message: 'Are you sure that you want to exit?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'letraPuntos',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Exit',
+          handler: () => {
+            this.router.navigate(['/'])
+            console.log('Confirm Okay');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
-  executeLevel = async () => {
-    this.executingLevel = true
-    var i: number;
-    for (i = 0; i < this.level.length; i++){
-      await delay(1, 200)
-      let index = this.level[i]
-      console.log(this.buttons)
-      this.buttons[index] = true
-      await delay(index, 1000)
-      this.buttons[index] = false
-    }
-    this.executingLevel = false
-  }
+  async presentAlertRestart() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Restart game?',
+      message: 'Are you sure that you want to restart?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'letraPuntos',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Restart',
+          handler: () => {
+            this.initialize()
+            console.log('Confirm Okay');
+          }
+        }
+      ]
+    });
 
-  delay(index:number, ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
-  }
-
-  generateLevel() {
-    var i:number;
-    this.level = []
-    for (i = 0; i <= this.counter; i++){
-      this.level.push(Math.floor(Math.random() * 4) + 1 )
-    }
-    this.counter++
-    this.playingCounter = 0
+    await alert.present();
   }
 }

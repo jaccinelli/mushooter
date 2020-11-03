@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { delay } from 'q';
 import { Router, ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
@@ -10,8 +10,13 @@ import { switchMap } from 'rxjs/operators';
 })
 export class LostPage implements OnInit {
   
-  constructor(private router: Router, private route: ActivatedRoute) {}
-  rounds: number = 0
+  public rounds: any = 0
+  constructor(private router: Router, private route: ActivatedRoute) {
+    this.route.params.subscribe(params => {
+      this.rounds = params.rounds
+    })
+  }
+  
   ngOnInit() {
     
   }

@@ -1,46 +1,19 @@
 <ion-content>
-  <ul class="circles">
-    <li *ngFor="let i of cantidad"></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
+  <ul class="circles" style="z-index: 0;">
+    <li *ngFor="let i of cantidad" style="text-align: center;"><!-- <img src="./assets/imgs/mushroom.png" hstyle="height: 100%;"> --></li>
   </ul>
-  <ion-grid class="area" style="padding-top: 25vh;">
-    <ion-row>
-      <ion-col size="2">
-
-      </ion-col>
-      <ion-col style="text-align: center; " size="8">
-        <h1 style="font-family: 'Exo', sans-serif; font-size: 75px; font-weight: bold;">
-          Memo
-        </h1>
-        <h1 style="font-family: 'Exo', sans-serif; font-size: 50px; font-weight: bold;">
-          Tech
-        </h1>
-      </ion-col>
-      <ion-col size="2">
-
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="2">
-
-      </ion-col>
-      <ion-col style="text-align: center; " size="8">
-        <div class="boton" (click)="play()">
-          P L A Y
-        </div>
-      </ion-col>
-      <ion-col size="2">
-
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <div class="area" style="z-index: 1; padding-top: 15vh; display: flex; flex-flow: column; align-items: center;">
+    <h1 class="letraTitulo" style="font-family: 'Exo', sans-serif; font-size: 45px; font-weight: bold;">
+      Mushooter
+    </h1>
+    <h1 class="letraSubTitulo" style="font-family: 'Exo', sans-serif; font-size: 20px; font-weight: bold;">
+      Are your fingers quick enough?
+    </h1>
+    <div class="boton" (click)="play()" style="z-index: 10; text-align: center;">
+      P L A Y
+    </div>
+    <div class="botonShop" (click)="shop()" style="z-index: 10; display: flex; flex-flow: row; align-items: center; justify-content: space-around;">
+      <img src="./assets/imgs/cofre.png" height="50px"> S H O P
+    </div>
+  </div>
 </ion-content>

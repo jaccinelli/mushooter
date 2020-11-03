@@ -1,5 +1,7 @@
 {
   "name": "MemoTech",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

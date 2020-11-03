@@ -1,74 +1,78 @@
 <ion-content>
-  <div class="memorize" [ngClass]="{'animatedClass': roundWillFire, 'destroyed': !roundWillFire}">
-    ¡Memorize!
+  <div style="background-image: url('assets/imgs/bg.jpg'); width: 100%; height: 100%; background-size: cover;">
+    <div class="memorize" [ngClass]="{'animatedClass': roundWillFire, 'destroyed': !roundWillFire}">
+      ¡ Memorize !
+    </div>
+    <div class="nice" [ngClass]="{'niceAnimation': wonLevel, 'destroyed': !wonLevel}">
+      ¡ Nice !
+    </div>
+    <div class="memorize" [ngClass]="{'goAnimation': goPlay, 'destroyed': !goPlay}">
+      ¡ GO !
+    </div>
+    <div class="lostAnim" [ngClass]="{'animatedClassLost': roundLost, 'destroyed': !roundLost}">
+      ¡ You lost :( !
+    </div>
+    <div id="statusBar" name="statusBar" style="width: 100%; height: 10%;
+    display: flex; flex-flow: column; justify-content: space-around;
+    ">
+      <div style="width: 100%;
+      display: flex; flex-flow: row; justify-content: space-around;
+      ">
+        <div style="display: flex; flex-flow: row; justify-content: space-around; align-items: center;">
+          <img src="./assets/imgs/star.png" height="35px" style="padding-right: 10px;">
+          <b class="letraPuntos">{{points}}</b>
+        </div>
+        <div id="counterDiv" style="width: 30px;">
+          <app-counter *ngIf="showCounter" [from]=0 [to]=100 [of]=100 [fontSize]=40 [animationTime]="ms - 50" [circleColor]="'#ff8c56'"></app-counter>
+        </div>
+        <div style="display: flex; flex-flow: row; justify-content: space-around; align-items: center;">
+          <img src="./assets/imgs/hearth.png" height="35px" style="padding-right: 10px;">
+          <b class="letraPuntos">{{lifes}}</b>
+        </div>
+      </div>
+    </div>
+
+    <img (click)="mushroomPressed()" id="mushroom" name="mushroom" src="./assets/imgs/mushroom.png" height="0px">
+    <div id="counterTimerStart" class="demo">
+      <div class="demo__colored-blocks">
+        <div class="demo__colored-blocks-rotater">
+          <div class="demo__colored-block"></div>
+          <div class="demo__colored-block"></div>
+          <div class="demo__colored-block"></div>
+        </div>
+        <div class="demo__colored-blocks-inner"></div>
+        <div class="demo__text" style="font-size: 30pt;">STEADY</div>
+      </div>
+      <div class="demo__inner">
+        <svg class="demo__numbers" viewBox="0 0 100 100">
+          <defs>
+            <path class="demo__num-path-1" d="M40,28 55,22 55,78"/>
+            <path class="demo__num-join-1-2" d="M55,78 55,83 a17,17 0 1,0 34,0 a20,10 0 0,0 -20,-10"/>
+            <path class="demo__num-path-2" d="M69,73 l-35,0 l30,-30 a16,16 0 0,0 -22.6,-22.6 l-7,7"/>
+            <path class="demo__num-join-2-3" d="M28,69 Q25,44 34.4,27.4"/>
+            <path class="demo__num-path-3" d="M30,20 60,20 40,50 a18,15 0 1,1 -12,19"/>
+          </defs>
+          <path class="demo__numbers-path" 
+                d="M-10,20 60,20 40,50 a18,15 0 1,1 -12,19 
+                   Q25,44 34.4,27.4
+                   l7,-7 a16,16 0 0,1 22.6,22.6 l-30,30 l35,0 L69,73 
+                   a20,10 0 0,1 20,10 a17,17 0 0,1 -34,0 L55,83 
+                   l0,-61 L40,28" />
+        </svg>
+      </div>
+    </div>
+    <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+      <ion-fab-button color="light">
+        <ion-icon name="menu"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-list side="start" style="margin-right: 100%; width: 150%;">
+        <ion-fab-button color="primary" style="margin-right: 5%;" (click)="presentAlertRestart()">
+          <ion-icon name="refresh"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-button color="danger" style="margin-right: 5%;" (click)="presentAlertExit()">
+          <ion-icon name="exit"></ion-icon>
+        </ion-fab-button>
+      </ion-fab-list>
+    </ion-fab>
   </div>
-  <div class="memorize" [ngClass]="{'destroyed': !executingLevel}">
-    
-  </div>
-  <div class="memorize" [ngClass]="{'animatedClassLost': roundLost, 'destroyed': !roundLost}">
-    ¡You lost!
-  </div>
-  <ion-grid class="area">
-    <ion-row>
-      <ion-col size="2">
-      </ion-col>
-      <ion-col style="text-align: center; " size="8">
-        <h1 class="letra" style="font-family: 'Exo', sans-serif; font-size: 75px; font-weight: bold;">
-          Memo
-        </h1>
-        <h1 style="font-family: 'Exo', sans-serif; font-size: 30px; font-weight: bold;">
-          <span style="color: rgb(36, 99, 180);">Score: </span> <span style="color: white;">{{rounds}} round<span
-              *ngIf="rounds != 1">s</span></span>
-        </h1>
-      </ion-col>
-      <ion-col size="2">
-      </ion-col>
-    </ion-row>
-    <ion-row style="padding-top: 5vh;">
-      <ion-col size="2">
-      </ion-col>
-      <ion-col size="8">
-        <div class="tropper" (click)="playing(1)" [ngClass]="{'tapper':buttons['1'], 'tapperLost':buttonsLost['1']}" style="background-color: rgb(230, 119, 45); padding: 50px;">
-
-        </div>
-      </ion-col>
-      <ion-col size="2">
-      </ion-col>
-    </ion-row>
-    <ion-row style="padding-top: 5vh;">
-      <ion-col size="2">
-      </ion-col>
-      <ion-col size="8">
-        <div class="tropper" (click)="playing(2)" [ngClass]="{'tapper':buttons['2'], 'tapperLost':buttonsLost['2']}" style="background-color: rgb(179, 80, 224); padding: 50px;">
-
-        </div>
-      </ion-col>
-      <ion-col size="2">
-      </ion-col>
-    </ion-row>
-    <ion-row style="padding-top: 5vh;">
-      <ion-col size="2">
-      </ion-col>
-      <ion-col size="8">
-        <div class="tropper" (click)="playing(3)" [ngClass]="{'tapper':buttons['3'], 'tapperLost':buttonsLost['3']}" style="background-color: rgb(15, 65, 139); padding: 50px;">
-
-        </div>
-      </ion-col>
-      <ion-col size="2">
-      </ion-col>
-    </ion-row>
-    <ion-row style="padding-top: 5vh;">
-      <ion-col size="2">
-      </ion-col>
-      <ion-col size="8">
-        <div class="tropper" (click)="playing(4)" [ngClass]="{'tapper':buttons['4'], 'tapperLost':buttonsLost['4']}" style="background-color: rgb(214, 201, 23); padding: 50px;">
-
-        </div>
-      </ion-col>
-      <ion-col size="2">
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-
 </ion-content>
